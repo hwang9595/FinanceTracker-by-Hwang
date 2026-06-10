@@ -22,7 +22,7 @@ def transaction_list(request):
     )
 
 
-# НОВАЯ ФУНКЦИЯ: Удаление транзакции
+
 def delete_transaction(request, transaction_id):
     transaction = get_object_or_404(Transaction, id=transaction_id)
 
