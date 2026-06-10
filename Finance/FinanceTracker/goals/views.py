@@ -25,7 +25,6 @@ def goal_list(request):
     )
 
 
-# НОВАЯ ФУНКЦИЯ: Добавление накоплений к цели
 def add_savings(request, goal_id):
     goal = get_object_or_404(Goal, id=goal_id)
 
@@ -37,10 +36,10 @@ def add_savings(request, goal_id):
                 messages.error(request, "Please enter a positive amount.")
                 return HttpResponseRedirect(reverse('goals'))
 
-            # Добавляем сумму к текущим накоплениям
+           
             goal.current_amount += amount
 
-            # Проверяем, не превысили ли мы целевой суммы
+            
             if goal.current_amount > goal.target_amount:
                 goal.current_amount = goal.target_amount
                 messages.success(request, f"🎉 Congratulations! You've reached your goal '{goal.title}'!")
@@ -54,11 +53,11 @@ def add_savings(request, goal_id):
 
         return HttpResponseRedirect(reverse('goals'))
 
-    # Если не POST - перенаправляем на список целей
+   
     return redirect('goals')
 
 
-# НОВАЯ ФУНКЦИЯ: Удаление цели
+
 def delete_goal(request, goal_id):
     goal = get_object_or_404(Goal, id=goal_id)
 
@@ -68,5 +67,5 @@ def delete_goal(request, goal_id):
         messages.success(request, f"Goal '{goal_title}' has been deleted.")
         return HttpResponseRedirect(reverse('goals'))
 
-    # Если не POST - перенаправляем на список целей
+  
     return redirect('goals')
