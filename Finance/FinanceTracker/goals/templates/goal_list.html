@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}Goals - Finance Tracker{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div>
+        <p class="eyebrow">Savings</p>
+        <h1>Goals</h1>
+    </div>
+</section>
+
+<section class="split-layout">
+    <article class="panel">
+        <h2>Add goal</h2>
+        <form method="post" class="form-grid">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="button" type="submit">Save goal</button>
+        </form>
+    </article>
+
+    <article class="panel panel-wide">
+        <h2>Progress</h2>
+
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if goals %}
+            <div class="goal-list">
+                {% for goal in goals %}
+                    <div class="goal-item">
+                        <div class="goal-header">
+                            <div>
+                                <strong>{{ goal.title }}</strong>
+                                <span>${{ goal.current_amount|floatformat:2 }} of ${{ goal.target_amount|floatformat:2 }}</span>
+                                {% if goal.deadline %}<small>Deadline: {{ goal.deadline }}</small>{% endif %}
+                            </div>
+
+                            <!-- НОВАЯ КНОПКА УДАЛЕНИЯ -->
+                            <form method="post" action="{% url 'delete_goal' goal.id %}"
+                                  onsubmit="return confirm('Are you sure you want to delete this goal?');">
+                                {% csrf_token %}
+                                <button type="submit" class="button-delete" title="Delete goal">Delete</button>
+                            </form>
+                        </div>
+
+                        <div class="progress">
+                            <span style="width: {{ goal.progress_percent }}%"></span>
+                        </div>
+
+                        <div class="add-savings-form">
+                            <form method="post" action="{% url 'add_savings' goal.id %}" class="inline-form">
+                                {% csrf_token %}
+                                <input type="number"
+                                       name="amount"
+                                       step="0.01"
+                                       min="0.01"
+                                       placeholder="Enter amount $"
+                                       required>
+                                <button type="submit" class="button-small">Add savings</button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="empty">No goals yet. Create your first goal!</p>
+        {% endif %}
+    </article>
+</section>
+{% endblock %}

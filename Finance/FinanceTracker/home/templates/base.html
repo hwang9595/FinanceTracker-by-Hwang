@@ -1,0 +1,38 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Finance Tracker</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<header class="topbar">
+    <a href="{% url 'home' %}" class="brand">
+    <i class="fa-duotone fa-solid fa-money-bill" style="--fa-primary-color: rgb(19, 155, 10); --fa-secondary-color: rgb(19, 155, 10);"></i>
+    Finance Tracker
+</a>
+    <button class="menu-toggle" aria-label="Меню" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <nav class="nav">
+        <a href="{% url 'home' %}">DashBoard</a>
+        <a href="{% url 'transactions' %}">Transactions</a>
+        <a href="{% url 'categories' %}">Categories</a>
+        <a href="{% url 'goals' %}">Goals</a>
+    </nav>
+</header>
+<main class="page">
+    {% block content %}
+    {% endblock %}
+</main>
+<script src="{% static 'js/menu.js' %}"></script>
+</body>
+</html>
